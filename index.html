@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Brief – Transfer Knowledge Handbook CBD CSGT</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1B1E3D;
+    --purple: #4A3F8F;
+    --purple-light: #7B6FC4;
+    --teal: #2BBFA4;
+    --teal-light: #E0F7F4;
+    --sand: #F5F2EC;
+    --warm-white: #FDFCFA;
+    --text-dark: #1B1E3D;
+    --text-mid: #4A4D6A;
+    --text-light: #8A8DA8;
+    --accent: #FF6B6B;
+    --gold: #D4A843;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #E8E6F0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px 16px 40px;
+    color: var(--text-dark);
+  }
+
+  /* Navigation */
+  .nav-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 40px;
+    box-shadow: 0 2px 12px rgba(27,30,61,0.12);
+  }
+  .nav-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: var(--navy);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s, transform .1s;
+  }
+  .nav-btn:hover { background: var(--purple); transform: scale(1.05); }
+  .nav-btn:disabled { background: #D0D0DC; cursor: not-allowed; transform: none; }
+  .slide-counter {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-mid);
+    min-width: 60px;
+    text-align: center;
+  }
+  .dot-nav { display: flex; gap: 6px; }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #D0D0DC;
+    cursor: pointer;
+    transition: background .2s, transform .2s;
+  }
+  .dot.active { background: var(--purple); transform: scale(1.3); }
+
+  /* Slide container */
+  .slide-viewport {
+    width: 100%;
+    max-width: 960px;
+    aspect-ratio: 16/9;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(27,30,61,0.22);
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .4s ease, transform .4s ease;
+    transform: translateX(30px);
+  }
+  .slide.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateX(0);
+  }
+  .slide.exit {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  /* ─── SLIDE 1: COVER ─────────────────────────────────── */
+  .s1 {
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8% 10%;
+    position: relative;
+    overflow: hidden;
+  }
+  .s1::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(74,63,143,0.5) 0%, transparent 70%);
+    right: -150px; top: -150px;
+  }
+  .s1::after {
+    content: '';
+    position: absolute;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(43,191,164,0.3) 0%, transparent 70%);
+    left: -80px; bottom: -80px;
+  }
+  .s1-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(43,191,164,0.15);
+    border: 1px solid rgba(43,191,164,0.4);
+    color: var(--teal);
+    font-size: clamp(9px, 1.1vw, 12px);
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    width: fit-content;
+  }
+  .s1-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(22px, 4vw, 46px);
+    color: white;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .s1-title em {
+    color: var(--teal);
+    font-style: italic;
+  }
+  .s1-sub {
+    font-size: clamp(11px, 1.4vw, 15px);
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 36px;
+    font-weight: 400;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+  .s1-meta {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .s1-meta-item { display: flex; flex-direction: column; gap: 3px; }
+  .s1-meta-label { font-size: clamp(8px, 1vw, 10px); text-transform: uppercase; letter-spacing: .1em; color: rgba(255,255,255,0.35); font-weight: 600; }
+  .s1-meta-val { font-size: clamp(10px, 1.3vw, 13px); color: rgba(255,255,255,0.85); font-weight: 500; }
+  .s1-logo {
+    position: absolute;
+    top: 8%;
+    right: 8%;
+    font-size: clamp(9px, 1.2vw, 13px);
+    font-weight: 800;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .s1-deco-num {
+    position: absolute;
+    bottom: 6%;
+    right: 7%;
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(60px, 10vw, 120px);
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    font-style: italic;
+  }
+
+  /* ─── SLIDE 2: LATAR BELAKANG ─────────────────────────── */
+  .s2 {
+    background: var(--warm-white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+  }
+  .s2-left {
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8%;
+    position: relative;
+    overflow: hidden;
+  }
+  .s2-left::after {
+    content: '';
+    position: absolute;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(43,191,164,0.12);
+    bottom: -60px; right: -60px;
+  }
+  .s2-slide-label {
+    font-size: clamp(8px, 1vw, 10px);
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+  .s2-left .s2-slide-label { color: var(--teal); }
+  .s2-heading {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(18px, 3vw, 36px);
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+  .s2-left .s2-heading { color: white; }
+  .s2-body {
+    font-size: clamp(10px, 1.2vw, 13px);
+    line-height: 1.75;
+    color: rgba(255,255,255,0.65);
+  }
+  .s2-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 7% 8%;
+    gap: 14px;
+  }
+  .s2-right .s2-slide-label { color: var(--purple); }
+  .s2-right .s2-heading { color: var(--navy); }
+  .problem-card {
+    background: var(--sand);
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-left: 3px solid var(--purple-light);
+  }
+  .problem-icon {
+    font-size: clamp(14px, 2vw, 20px);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .problem-text {
+    font-size: clamp(9px, 1.1vw, 12px);
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+  .problem-text strong {
+    display: block;
+    color: var(--navy);
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-size: clamp(10px, 1.2vw, 13px);
+  }
+
+  /* ─── SLIDE 3: RUANG LINGKUP ──────────────────────────── */
+  .s3 {
+    background: var(--sand);
+    display: flex;
+    flex-direction: column;
+    padding: 6% 8%;
+    height: 100%;
+  }
+  .s3-header {
+    margin-bottom: 20px;
+  }
+  .generic-label {
+    font-size: clamp(8px, 1vw, 10px);
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    font-weight: 700;
+    color: var(--purple);
+    margin-bottom: 6px;
+  }
+  .generic-heading {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(18px, 2.8vw, 34px);
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .scope-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    flex: 1;
+  }
+  .scope-card {
+    background: white;
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 3px solid var(--teal);
+    box-shadow: 0 2px 8px rgba(27,30,61,0.06);
+  }
+  .scope-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(20px, 3vw, 36px);
+    color: var(--teal);
+    line-height: 1;
+    font-style: italic;
+  }
+  .scope-title {
+    font-size: clamp(10px, 1.2vw, 13px);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+  .scope-desc {
+    font-size: clamp(8px, 1vw, 11px);
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+  .key-people {
+    margin-top: 14px;
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .kp-label {
+    font-size: clamp(8px, 1vw, 10px);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-weight: 700;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+  .kp-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .kp-tag {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85);
+    font-size: clamp(8px, 1vw, 11px);
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* ─── SLIDE 4: CONTOH PEKERJAAN ──────────────────────── */
+  .s4 {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    padding: 5% 7%;
+    height: 100%;
+  }
+  .s4-header { margin-bottom: 16px; }
+  .flow-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+  }
+  .flow-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .flow-step {
+    background: var(--sand);
+    border-radius: 10px;
+    padding: 10px 12px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    position: relative;
+    border: 1px solid transparent;
+    transition: border-color .2s;
+  }
+  .flow-step:hover { border-color: var(--teal); }
+  .step-num {
+    width: clamp(22px, 2.5vw, 28px);
+    height: clamp(22px, 2.5vw, 28px);
+    border-radius: 50%;
+    background: var(--navy);
+    color: white;
+    font-size: clamp(9px, 1vw, 11px);
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-content {}
+  .step-title {
+    font-size: clamp(9px, 1.1vw, 12px);
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 3px;
+    line-height: 1.3;
+  }
+  .step-desc {
+    font-size: clamp(8px, 0.95vw, 10px);
+    color: var(--text-light);
+    line-height: 1.55;
+  }
+  .step-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: clamp(7px, 0.85vw, 9px);
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 10px;
+    margin-top: 4px;
+  }
+  .tag-canva { background: #E8F4FD; color: #1A73E8; }
+  .tag-aps   { background: #E8F7F4; color: #0E8A6E; }
+  .tag-mentor { background: #F3EFFD; color: #5B4DB0; }
+  .tag-wa    { background: #E6F9EE; color: #1A8A3C; }
+  .tag-brief { background: #FFF3E0; color: #E07B00; }
+
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--teal);
+    font-size: clamp(12px, 1.5vw, 18px);
+    font-weight: 700;
+  }
+  .row-arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 0;
+    color: var(--purple-light);
+    font-size: clamp(12px, 1.5vw, 18px);
+  }
+
+  /* ─── SLIDE 5: OUTPUT & IMPACT ─────────────────────────── */
+  .s5 {
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    padding: 7% 9%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .s5::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 80% 20%, rgba(43,191,164,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 20% 80%, rgba(74,63,143,0.3) 0%, transparent 50%);
+  }
+  .s5 > * { position: relative; }
+  .s5-header { margin-bottom: 24px; }
+  .s5 .generic-label { color: var(--teal); }
+  .s5 .generic-heading { color: white; }
+  .output-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .output-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .output-icon {
+    font-size: clamp(18px, 2.5vw, 28px);
+    flex-shrink: 0;
+  }
+  .output-title {
+    font-size: clamp(10px, 1.2vw, 13px);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4px;
+  }
+  .output-desc {
+    font-size: clamp(9px, 1vw, 11px);
+    color: rgba(255,255,255,0.55);
+    line-height: 1.65;
+  }
+  .timeline-bar {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .tl-label {
+    font-size: clamp(8px, 1vw, 10px);
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 700;
+    color: var(--teal);
+    white-space: nowrap;
+  }
+  .tl-items { display: flex; gap: 6px; flex: 1; flex-wrap: wrap; }
+  .tl-item {
+    flex: 1;
+    text-align: center;
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 6px 10px;
+    min-width: 80px;
+  }
+  .tl-phase { font-size: clamp(7px, 0.85vw, 9px); color: rgba(255,255,255,0.4); font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+  .tl-week { font-size: clamp(10px, 1.2vw, 13px); color: white; font-weight: 700; }
+
+  /* Responsive for smaller screens */
+  @media (max-width: 600px) {
+    .scope-grid { grid-template-columns: repeat(2, 1fr); }
+    .flow-row { grid-template-columns: 1fr; }
+    .output-grid { grid-template-columns: 1fr; }
+    .s2 { grid-template-columns: 1fr; }
+    .s2-left { padding: 6% 8%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+  <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" disabled>&#8592;</button>
+  <div class="dot-nav" id="dot-nav"></div>
+  <span class="slide-counter" id="counter">1 / 5</span>
+  <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">&#8594;</button>
+</div>
+
+<div class="slide-viewport">
+
+  <!-- ── SLIDE 1: COVER ── -->
+  <div class="slide s1 active" data-index="0">
+    <div class="s1-logo">▼ PARAGON CORP</div>
+    <div class="s1-tag">● Project Brief · 2026</div>
+    <h1 class="s1-title">
+      Transfer Knowledge<br><em>Handbook</em><br>CBD CSGT Intern
+    </h1>
+    <p class="s1-sub">Panduan end-to-end untuk menjaga kesinambungan kerja intern di divisi Customer Business Development – Channel General Trade Cosmetic Store</p>
+    <div class="s1-meta">
+      <div class="s1-meta-item">
+        <span class="s1-meta-label">Direktorat</span>
+        <span class="s1-meta-val">Commercial</span>
+      </div>
+      <div class="s1-meta-item">
+        <span class="s1-meta-label">Departemen</span>
+        <span class="s1-meta-val">Customer Business Dev.</span>
+      </div>
+      <div class="s1-meta-item">
+        <span class="s1-meta-label">Channel</span>
+        <span class="s1-meta-val">General Trade · CSGT</span>
+      </div>
+      <div class="s1-meta-item">
+        <span class="s1-meta-label">Tahun</span>
+        <span class="s1-meta-val">2026</span>
+      </div>
+    </div>
+    <div class="s1-deco-num">HB</div>
+  </div>
+
+  <!-- ── SLIDE 2: LATAR BELAKANG ── -->
+  <div class="slide s2" data-index="1">
+    <div class="s2-left">
+      <p class="s2-slide-label">02 — Latar Belakang</p>
+      <h2 class="s2-heading">Mengapa handbook ini penting?</h2>
+      <p class="s2-body">Posisi intern di CBD CSGT memiliki siklus pergantian yang rutin. Setiap intern baru membutuhkan waktu adaptasi yang panjang karena tidak ada dokumentasi alur kerja yang terstruktur. Handbook ini hadir untuk memutus siklus tersebut.</p>
+    </div>
+    <div class="s2-right">
+      <p class="s2-slide-label">Masalah yang diidentifikasi</p>
+      <div class="problem-card">
+        <span class="problem-icon">⏱</span>
+        <div class="problem-text">
+          <strong>Onboarding lambat</strong>
+          Tidak ada dokumentasi tertulis — intern baru belajar secara trial and error dari awal.
+        </div>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">🔗</span>
+        <div class="problem-text">
+          <strong>Link & kontak tersebar</strong>
+          Tautan Canva, nomor APS/SL, kode budget tidak tersimpan di satu tempat yang mudah diakses.
+        </div>
+      </div>
+      <div class="problem-card">
+        <span class="problem-icon">🔄</span>
+        <div class="problem-text">
+          <strong>Alur kerja tidak terdokumentasi</strong>
+          Proses dari brief promosi hingga eksekusi di toko melibatkan banyak pihak dan belum terpetakan.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 3: RUANG LINGKUP ── -->
+  <div class="slide s3" data-index="2">
+    <div class="s3-header">
+      <p class="generic-label">03 — Ruang Lingkup Handbook</p>
+      <h2 class="generic-heading">Apa yang akan didokumentasikan?</h2>
+    </div>
+    <div class="scope-grid">
+      <div class="scope-card">
+        <div class="scope-num">01</div>
+        <div class="scope-title">Database Link & Workspace</div>
+        <div class="scope-desc">Link Canva template promo, spreadsheet alokasi, folder Drive, dan platform kerja lainnya yang digunakan sehari-hari.</div>
+      </div>
+      <div class="scope-card">
+        <div class="scope-num">02</div>
+        <div class="scope-title">Database Kontak Penting</div>
+        <div class="scope-desc">Nomor dan kontak key person: APS, SL, TnD, Xteam, Beauty Advisor (BA), dan pihak terkait lainnya.</div>
+      </div>
+      <div class="scope-card">
+        <div class="scope-num">03</div>
+        <div class="scope-title">Alur Main Job</div>
+        <div class="scope-desc">SOP step-by-step untuk 7 pekerjaan utama: materi promosi, data, bundling, stok, pengawasan, dan sertifikasi.</div>
+      </div>
+      <div class="scope-card">
+        <div class="scope-num">04</div>
+        <div class="scope-title">Tips & Catatan Lapangan</div>
+        <div class="scope-desc">Lessons learned dari pengalaman langsung — hal-hal yang tidak tertulis di SOP tapi krusial di lapangan.</div>
+      </div>
+    </div>
+    <div class="key-people">
+      <span class="kp-label">Key People</span>
+      <div class="kp-tags">
+        <span class="kp-tag">📦 APS – Logistik Event</span>
+        <span class="kp-tag">💼 SL – Sales</span>
+        <span class="kp-tag">🎓 TnD – Training & Dev.</span>
+        <span class="kp-tag">✨ Xteam – Experience</span>
+        <span class="kp-tag">💄 Beauty Advisor (BA)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 4: CONTOH ALUR ── -->
+  <div class="slide s4" data-index="3">
+    <div class="s4-header">
+      <p class="generic-label">04 — Contoh Alur Pekerjaan</p>
+      <h2 class="generic-heading" style="color:var(--navy); font-family:'Instrument Serif',serif; font-size:clamp(16px,2.4vw,28px);">Merancang Materi Promosi</h2>
+    </div>
+    <div class="flow-container">
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Terima Brief Promosi</div>
+            <div class="step-desc">Baca brief dari grup WA (alokasi toko, kode budget, mekanisme promo)</div>
+            <span class="step-tag tag-brief">📋 Brief via WA</span>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Cek Template Promo</div>
+            <div class="step-desc">Buka link template POP/selongsong/wobbler di Canva yang sudah tersedia</div>
+            <span class="step-tag tag-canva">🎨 Canva Template</span>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Desain Materi POP</div>
+            <div class="step-desc">Edit di Canva: sesuaikan mekanisme, produk, nama toko, dan periode promo</div>
+            <span class="step-tag tag-canva">🎨 Canva Design</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row-arrow">↓</div>
+
+      <div class="flow-row">
+        <div class="flow-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Kirim ke Mentor untuk Approval</div>
+            <div class="step-desc">Share preview desain, tunggu feedback dan revisi hingga disetujui</div>
+            <span class="step-tag tag-mentor">✅ Approval Mentor</span>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <div class="step-title">Kirim File ke Tim APS</div>
+            <div class="step-desc">Teruskan desain final ke APS untuk dicetak dan dialokasikan ke toko-toko</div>
+            <span class="step-tag tag-aps">📦 APS – Print & Distribusi</span>
+          </div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <div class="step-title">Briefing & Dokumentasi</div>
+            <div class="step-desc">Jelaskan mekanisme ke grup big bet, minta bukti foto dari BA / APS / SL</div>
+            <span class="step-tag tag-wa">📸 Dokumentasi BA/SL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SLIDE 5: OUTPUT & TIMELINE ── -->
+  <div class="slide s5" data-index="4">
+    <div class="s5-header">
+      <p class="generic-label">05 — Output & Timeline</p>
+      <h2 class="generic-heading">Apa yang dihasilkan dari project ini?</h2>
+    </div>
+    <div class="output-grid">
+      <div class="output-card">
+        <div class="output-icon">📘</div>
+        <div>
+          <div class="output-title">Handbook Digital (Word/PDF)</div>
+          <div class="output-desc">Dokumen terstruktur berisi seluruh SOP, database link, kontak, dan alur kerja 7 main job CBD CSGT.</div>
+        </div>
+      </div>
+      <div class="output-card">
+        <div class="output-icon">🗂</div>
+        <div>
+          <div class="output-title">Database Terpusat</div>
+          <div class="output-desc">Link Canva, spreadsheet, nomor APS/SL/BA, kode budget — semua di satu tempat yang mudah diakses intern berikutnya.</div>
+        </div>
+      </div>
+      <div class="output-card">
+        <div class="output-icon">🔄</div>
+        <div>
+          <div class="output-title">Alur Kerja Visual</div>
+          <div class="output-desc">Diagram step-by-step tiap pekerjaan utama, lengkap dengan siapa yang dihubungi dan tools yang digunakan.</div>
+        </div>
+      </div>
+      <div class="output-card">
+        <div class="output-icon">💡</div>
+        <div>
+          <div class="output-title">Catatan Lapangan</div>
+          <div class="output-desc">Tips praktis yang tidak ada di SOP resmi — hasil pembelajaran langsung dari pengalaman internship.</div>
+        </div>
+      </div>
+    </div>
+    <div class="timeline-bar">
+      <span class="tl-label">Estimasi Timeline</span>
+      <div class="tl-items">
+        <div class="tl-item">
+          <div class="tl-phase">Minggu 1–2</div>
+          <div class="tl-week">Riset & Outline</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-phase">Minggu 3–5</div>
+          <div class="tl-week">Penulisan SOP</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-phase">Minggu 6–7</div>
+          <div class="tl-week">Review & Revisi</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-phase">Minggu 8</div>
+          <div class="tl-week">Finalisasi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end slide-viewport -->
+
+<script>
+  let current = 0;
+  const total = 5;
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  const dotNav = document.getElementById('dot-nav');
+
+  // Build dots
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotNav.appendChild(d);
+  }
+
+  function goTo(index) {
+    slides[current].classList.remove('active');
+    slides[current].classList.add('exit');
+    setTimeout(() => slides[current < index ? current : index + (current > index ? 0 : 0)].classList.remove('exit'), 400);
+
+    const oldSlide = slides[current];
+    oldSlide.classList.add('exit');
+    setTimeout(() => oldSlide.classList.remove('exit'), 400);
+
+    current = index;
+    slides[current].classList.add('active');
+
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    counter.textContent = `${current + 1} / ${total}`;
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
+
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < total) goTo(next);
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+  });
+</script>
+</body>
+</html>
